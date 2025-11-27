@@ -1,1 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programming Magic - Maniha Attique</title>
+    <meta property="og:image" content="https://safarpath.github.io/c-loop-assig/maniha/maniha.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #ec4899;
+            --secondary: #a855f7;
+            --accent: #f472b6;
+            --light: #fdf2f8;
+            --dark: #831843;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        .code-block {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: #f3f4f6;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            position: relative;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .code-block pre {
+            margin: 0;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .code-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .code-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #6b7280;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.3);
+        }
+        
+        .program-card {
+            transition: all 0.4s ease;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .output-container {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 300px;
+            box-shadow: inset 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid #374151;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .input-group label {
+            font-weight: 500;
+            color: #6b7280;
+        }
+        
+        .input-group input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+            outline: none;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(236, 72, 153, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.4);
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .mobile-menu {
+            display: none;
+        }
+        
+        .decorative-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
+            z-index: -1;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .desktop-tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+    <!-- Decorative Background Elements -->
+    <div class="decorative-shape w-80 h-80 -top-40 -left-40 floating-element"></div>
+    <div class="decorative-shape w-60 h-60 -bottom-20 -right-20 floating-element" style="animation-delay: 2s;"></div>
+    <div class="decorative-shape w-40 h-40 top-1/4 right-1/4 floating-element" style="animation-delay: 4s;"></div>
 
+    <!-- Header -->
+    <header class="relative py-12 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">C Programming Magic</h1>
+            <p class="text-xl text-gray-600 mb-8">Exploring the Power of Loops in C Programming</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                <div class="bg-white rounded-2xl shadow-lg px-6 py-4 flex items-center gap-3 pulse-glow">
+                    <i class="fas fa-user-graduate text-2xl gradient-text"></i>
+                    <div>
+                        <p class="text-sm text-gray-500">Student Name</p>
+                        <p class="font-bold gradient-text">Maniha Attique</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-lg px-6 py-4 flex items-center gap-3 pulse-glow">
+                    <i class="fas fa-id-card text-2xl gradient-text"></i>
+                    <div>
+                        <p class="text-sm text-gray-500">Roll Number</p>
+                        <p class="font-bold gradient-text">7</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative max-w-7xl mx-auto px-4 pb-16">
+        <!-- Introduction -->
+        <div class="program-card p-8 mb-12 text-center">
+            <h2 class="text-3xl font-bold mb-4 gradient-text">Welcome to My Programming Journey</h2>
+            <p class="text-gray-600 mb-6 max-w-3xl mx-auto">
+                While others are submitting traditional PDFs, I wanted to create something special and interactive. 
+                This showcase demonstrates my understanding of C programming loops through beautiful, functional examples.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="bg-pink-50 rounded-xl p-4 flex items-center gap-3">
+                    <i class="fas fa-code text-xl text-pink-500"></i>
+                    <span>10 Interactive Programs</span>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-4 flex items-center gap-3">
+                    <i class="fas fa-play-circle text-xl text-purple-500"></i>
+                    <span>Run Code Directly</span>
+                </div>
+                <div class="bg-indigo-50 rounded-xl p-4 flex items-center gap-3">
+                    <i class="fas fa-mobile-alt text-xl text-indigo-500"></i>
+                    <span>Mobile Friendly</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Program Sections -->
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- While Loop Programs -->
+            <div class="lg:w-1/2">
+                <div class="program-card overflow-hidden">
+                    <div class="gradient-bg text-white p-6">
+                        <h2 class="text-2xl font-bold flex items-center gap-3">
+                            <i class="fas fa-redo-alt"></i>
+                            While Loop Programs
+                        </h2>
+                        <p class="mt-2 opacity-90">Condition-checked iteration at its finest</p>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Desktop Tabs -->
+                        <div class="desktop-tabs flex flex-wrap gap-2 mb-6">
+                            <button class="tab-button px-4 py-3 active" data-tab="while-1">Pattern</button>
+                            <button class="tab-button px-4 py-3" data-tab="while-2">Prime Check</button>
+                            <button class="tab-button px-4 py-3" data-tab="while-3">Armstrong</button>
+                            <button class="tab-button px-4 py-3" data-tab="while-4">GCD</button>
+                            <button class="tab-button px-4 py-3" data-tab="while-5">Series Sum</button>
+                        </div>
+
+                        <!-- Mobile Menu -->
+                        <div class="mobile-menu mb-6">
+                            <select id="while-mobile-menu" class="w-full p-3 border-2 border-pink-200 rounded-xl focus:outline-none focus:border-pink-500">
+                                <option value="while-1">Pattern Generator</option>
+                                <option value="while-2">Prime Number Check</option>
+                                <option value="while-3">Armstrong Number</option>
+                                <option value="while-4">GCD Calculator</option>
+                                <option value="while-5">Series Sum Calculator</option>
+                            </select>
+                        </div>
+
+                        <!-- While Program 1 -->
+                        <div id="while-1" class="tab-content">
+                            <h3 class="text-xl font-bold mb-3 text-pink-600">1. Star Pattern Generator</h3>
+                            <p class="text-gray-600 mb-4">This program creates a beautiful star pattern using nested while loops.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('while-1-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="while-1-code" data-inputs='["rows"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="while-1-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int rows, i = 1, j;
+    
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    
+    while (i <= rows) {
+        j = 1;
+        while (j <= i) {
+            printf("* ");
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="while-1-input">Enter number of rows:</label>
+                                <input type="number" id="while-1-input" placeholder="e.g., 5" min="1" max="15">
+                                <button class="action-btn" onclick="runCode('while-1-code', ['while-1-input'])">
+                                    <i class="fas fa-magic"></i> Generate Pattern
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="while-1-output">
+                                Pattern will appear here...
+                            </div>
+                        </div>
+
+                        <!-- While Program 2 -->
+                        <div id="while-2" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-pink-600">2. Prime Number Checker</h3>
+                            <p class="text-gray-600 mb-4">This program checks if a number is prime using a while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('while-2-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="while-2-code" data-inputs='["num"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="while-2-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int num, i = 2, isPrime = 1;
+    
+    printf("Enter a positive integer: ");
+    scanf("%d", &num);
+    
+    if (num <= 1) {
+        isPrime = 0;
+    } else {
+        while (i <= num / 2) {
+            if (num % i == 0) {
+                isPrime = 0;
+                break;
+            }
+            i++;
+        }
+    }
+    
+    if (isPrime)
+        printf("%d is a prime number.\n", num);
+    else
+        printf("%d is not a prime number.\n", num);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="while-2-input">Enter a positive integer:</label>
+                                <input type="number" id="while-2-input" placeholder="e.g., 17" min="2">
+                                <button class="action-btn" onclick="runCode('while-2-code', ['while-2-input'])">
+                                    <i class="fas fa-check-circle"></i> Check Prime
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="while-2-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+
+                        <!-- While Program 3 -->
+                        <div id="while-3" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-pink-600">3. Armstrong Number Checker</h3>
+                            <p class="text-gray-600 mb-4">This program checks if a number is an Armstrong number using while loops.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('while-3-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="while-3-code" data-inputs='["num"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="while-3-code">#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main() {
+    int num, original, remainder, digits = 0, result = 0;
+    
+    printf("Enter an integer: ");
+    scanf("%d", &num);
+    
+    original = num;
+    
+    // Count digits
+    while (original != 0) {
+        original /= 10;
+        digits++;
+    }
+    
+    original = num;
+    
+    // Calculate sum of nth power of digits
+    while (original != 0) {
+        remainder = original % 10;
+        result += pow(remainder, digits);
+        original /= 10;
+    }
+    
+    if (result == num)
+        printf("%d is an Armstrong number.\n", num);
+    else
+        printf("%d is not an Armstrong number.\n", num);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="while-3-input">Enter an integer:</label>
+                                <input type="number" id="while-3-input" placeholder="e.g., 153">
+                                <button class="action-btn" onclick="runCode('while-3-code', ['while-3-input'])">
+                                    <i class="fas fa-cube"></i> Check Armstrong
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="while-3-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+
+                        <!-- While Program 4 -->
+                        <div id="while-4" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-pink-600">4. GCD Calculator</h3>
+                            <p class="text-gray-600 mb-4">This program calculates the Greatest Common Divisor using a while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('while-4-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="while-4-code" data-inputs='["num1", "num2"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="while-4-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int num1, num2, gcd;
+    
+    printf("Enter two positive integers: ");
+    scanf("%d %d", &num1, &num2);
+    
+    // Find GCD
+    while (num1 != num2) {
+        if (num1 > num2)
+            num1 -= num2;
+        else
+            num2 -= num1;
+    }
+    
+    gcd = num1;
+    
+    printf("GCD = %d\n", gcd);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="while-4-input-1">Enter first number:</label>
+                                <input type="number" id="while-4-input-1" placeholder="e.g., 54" min="1">
+                                <label for="while-4-input-2">Enter second number:</label>
+                                <input type="number" id="while-4-input-2" placeholder="e.g., 24" min="1">
+                                <button class="action-btn" onclick="runCode('while-4-code', ['while-4-input-1', 'while-4-input-2'])">
+                                    <i class="fas fa-calculator"></i> Calculate GCD
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="while-4-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+
+                        <!-- While Program 5 -->
+                        <div id="while-5" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-pink-600">5. Series Sum Calculator</h3>
+                            <p class="text-gray-600 mb-4">This program calculates the sum of the series 1 + 1/2 + 1/3 + ... + 1/n using a while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('while-5-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="while-5-code" data-inputs='["n"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="while-5-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int n, i = 1;
+    float sum = 0.0;
+    
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+    
+    while (i <= n) {
+        sum += 1.0 / i;
+        i++;
+    }
+    
+    printf("Sum of the series = %.4f\n", sum);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="while-5-input">Enter the value of n:</label>
+                                <input type="number" id="while-5-input" placeholder="e.g., 5" min="1">
+                                <button class="action-btn" onclick="runCode('while-5-code', ['while-5-input'])">
+                                    <i class="fas fa-plus-circle"></i> Calculate Sum
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="while-5-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Do-While Loop Programs -->
+            <div class="lg:w-1/2">
+                <div class="program-card overflow-hidden">
+                    <div class="gradient-bg text-white p-6">
+                        <h2 class="text-2xl font-bold flex items-center gap-3">
+                            <i class="fas fa-sync-alt"></i>
+                            Do-While Loop Programs
+                        </h2>
+                        <p class="mt-2 opacity-90">Execute first, check condition later</p>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Desktop Tabs -->
+                        <div class="desktop-tabs flex flex-wrap gap-2 mb-6">
+                            <button class="tab-button px-4 py-3 active" data-tab="dowhile-1">Number Game</button>
+                            <button class="tab-button px-4 py-3" data-tab="dowhile-2">Factorial</button>
+                            <button class="tab-button px-4 py-3" data-tab="dowhile-3">Perfect Number</button>
+                            <button class="tab-button px-4 py-3" data-tab="dowhile-4">Binary Convert</button>
+                            <button class="tab-button px-4 py-3" data-tab="dowhile-5">Palindrome</button>
+                        </div>
+
+                        <!-- Mobile Menu -->
+                        <div class="mobile-menu mb-6">
+                            <select id="dowhile-mobile-menu" class="w-full p-3 border-2 border-purple-200 rounded-xl focus:outline-none focus:border-purple-500">
+                                <option value="dowhile-1">Number Guessing Game</option>
+                                <option value="dowhile-2">Factorial Calculator</option>
+                                <option value="dowhile-3">Perfect Number Check</option>
+                                <option value="dowhile-4">Binary Converter</option>
+                                <option value="dowhile-5">Palindrome Checker</option>
+                            </select>
+                        </div>
+
+                        <!-- Do-While Program 1 -->
+                        <div id="dowhile-1" class="tab-content">
+                            <h3 class="text-xl font-bold mb-3 text-purple-600">1. Number Guessing Game</h3>
+                            <p class="text-gray-600 mb-4">A fun game where you guess a number between 1 and 100 using a do-while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('dowhile-1-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="dowhile-1-code">
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="dowhile-1-code">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+int main() {
+    int number, guess, attempts = 0;
+    
+    srand(time(0));
+    number = rand() % 100 + 1;
+    
+    printf("🎮 Welcome to the Number Guessing Game! 🎮\n");
+    printf("I'm thinking of a number between 1 and 100.\n\n");
+    
+    do {
+        printf("Enter your guess: ");
+        scanf("%d", &guess);
+        attempts++;
+        
+        if (guess > number) {
+            printf("📈 Too high! Try again.\n\n");
+        } else if (guess < number) {
+            printf("📉 Too low! Try again.\n\n");
+        } else {
+            printf("🎉 Congratulations! You guessed it in %d attempts!\n", attempts);
+        }
+    } while (guess != number);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <p class="text-gray-700 text-center">This is an interactive game. Click run and follow the instructions in the output area.</p>
+                                <button class="action-btn" onclick="runCode('dowhile-1-code')">
+                                    <i class="fas fa-gamepad"></i> Start Game
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="dowhile-1-output">
+                                Game output will appear here...
+                            </div>
+                        </div>
+
+                        <!-- Do-While Program 2 -->
+                        <div id="dowhile-2" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-purple-600">2. Factorial Calculator</h3>
+                            <p class="text-gray-600 mb-4">This program calculates the factorial of a number using a do-while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('dowhile-2-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="dowhile-2-code" data-inputs='["n"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="dowhile-2-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int n, i = 1;
+    unsigned long long factorial = 1;
+    
+    printf("Enter a positive integer: ");
+    scanf("%d", &n);
+    
+    if (n < 0) {
+        printf("Error! Factorial of a negative number doesn't exist.\n");
+    } else {
+        do {
+            factorial *= i;
+            i++;
+        } while (i <= n);
+        
+        printf("Factorial of %d = %llu\n", n, factorial);
+    }
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="dowhile-2-input">Enter a positive integer:</label>
+                                <input type="number" id="dowhile-2-input" placeholder="e.g., 5" min="0" max="20">
+                                <button class="action-btn" onclick="runCode('dowhile-2-code', ['dowhile-2-input'])">
+                                    <i class="fas fa-exclamation-circle"></i> Calculate Factorial
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="dowhile-2-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+
+                        <!-- Do-While Program 3 -->
+                        <div id="dowhile-3" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-purple-600">3. Perfect Number Checker</h3>
+                            <p class="text-gray-600 mb-4">This program checks if a number is a perfect number using a do-while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('dowhile-3-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="dowhile-3-code" data-inputs='["num"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="dowhile-3-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int num, i = 1, sum = 0;
+    
+    printf("Enter a positive integer: ");
+    scanf("%d", &num);
+    
+    do {
+        if (num % i == 0) {
+            sum += i;
+        }
+        i++;
+    } while (i <= num / 2);
+    
+    if (sum == num && num != 0)
+        printf("%d is a perfect number.\n", num);
+    else
+        printf("%d is not a perfect number.\n", num);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="dowhile-3-input">Enter a positive integer:</label>
+                                <input type="number" id="dowhile-3-input" placeholder="e.g., 28" min="1">
+                                <button class="action-btn" onclick="runCode('dowhile-3-code', ['dowhile-3-input'])">
+                                    <i class="fas fa-heart"></i> Check Perfect Number
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="dowhile-3-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+
+                        <!-- Do-While Program 4 -->
+                        <div id="dowhile-4" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-purple-600">4. Binary Converter</h3>
+                            <p class="text-gray-600 mb-4">This program converts a decimal number to binary using a do-while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('dowhile-4-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="dowhile-4-code" data-inputs='["num"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="dowhile-4-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int num, binary[32], i = 0;
+    
+    printf("Enter a decimal number: ");
+    scanf("%d", &num);
+    
+    printf("Binary equivalent of %d is: ", num);
+    
+    do {
+        binary[i] = num % 2;
+        num = num / 2;
+        i++;
+    } while (num > 0);
+    
+    // Print binary in reverse order
+    do {
+        i--;
+        printf("%d", binary[i]);
+    } while (i > 0);
+    
+    printf("\n");
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="dowhile-4-input">Enter a decimal number:</label>
+                                <input type="number" id="dowhile-4-input" placeholder="e.g., 13" min="0">
+                                <button class="action-btn" onclick="runCode('dowhile-4-code', ['dowhile-4-input'])">
+                                    <i class="fas fa-exchange-alt"></i> Convert to Binary
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="dowhile-4-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+
+                        <!-- Do-While Program 5 -->
+                        <div id="dowhile-5" class="tab-content hidden">
+                            <h3 class="text-xl font-bold mb-3 text-purple-600">5. Palindrome Checker</h3>
+                            <p class="text-gray-600 mb-4">This program checks if a number is a palindrome using a do-while loop.</p>
+                            
+                            <div class="code-block mb-6">
+                                <div class="code-actions">
+                                    <button class="code-btn" onclick="copyCode('dowhile-5-code')">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <button class="code-btn run-btn" data-code="dowhile-5-code" data-inputs='["num"]'>
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                </div>
+                                <pre id="dowhile-5-code">#include &lt;stdio.h&gt;
+
+int main() {
+    int num, reversed = 0, remainder, original;
+    
+    printf("Enter an integer: ");
+    scanf("%d", &num);
+    
+    original = num;
+    
+    // Reverse the number
+    do {
+        remainder = num % 10;
+        reversed = reversed * 10 + remainder;
+        num /= 10;
+    } while (num != 0);
+    
+    // Check palindrome
+    if (original == reversed)
+        printf("%d is a palindrome.\n", original);
+    else
+        printf("%d is not a palindrome.\n", original);
+    
+    return 0;
+}</pre>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="dowhile-5-input">Enter an integer:</label>
+                                <input type="number" id="dowhile-5-input" placeholder="e.g., 12321">
+                                <button class="action-btn" onclick="runCode('dowhile-5-code', ['dowhile-5-input'])">
+                                    <i class="fas fa-retweet"></i> Check Palindrome
+                                </button>
+                            </div>
+                            
+                            <div class="output-container" id="dowhile-5-output">
+                                Result will appear here...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loop Comparison -->
+        <div class="program-card p-8 mt-12">
+            <h2 class="text-3xl font-bold text-center mb-8 gradient-text">While vs. Do-While: What's the Difference?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 p-6 rounded-2xl border border-pink-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                            <i class="fas fa-redo-alt text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-pink-600">While Loop</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-pink-500 mt-1"></i>
+                            <span>Condition is checked <strong>before</strong> execution</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-pink-500 mt-1"></i>
+                            <span>May execute <strong>zero or more</strong> times</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-pink-500 mt-1"></i>
+                            <span>Use when iteration count is <strong>unknown</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-pink-500 mt-1"></i>
+                            <span>Syntax: <code class="bg-pink-100 px-2 py-1 rounded">while (condition) { ... }</code></span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-2xl border border-purple-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                            <i class="fas fa-sync-alt text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-purple-600">Do-While Loop</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-purple-500 mt-1"></i>
+                            <span>Condition is checked <strong>after</strong> execution</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-purple-500 mt-1"></i>
+                            <span>Executes <strong>at least once</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-purple-500 mt-1"></i>
+                            <span>Use when you need <strong>guaranteed execution</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-purple-500 mt-1"></i>
+                            <span>Syntax: <code class="bg-purple-100 px-2 py-1 rounded">do { ... } while (condition);</code></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-12 mt-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold mb-4">C Programming Assignment</h2>
+            <p class="text-lg mb-6">Created with ❤️ by <span class="font-bold">Maniha Attique</span> (Roll No. 7)</p>            
+            <p class="mt-8 text-pink-100">A unique and interactive approach to presenting C programming concepts</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced JavaScript functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabGroup = button.closest('.p-6');
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons in this group
+                    tabGroup.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // Hide all tab contents in this group
+                    tabGroup.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    // Show selected tab content
+                    document.getElementById(tabId).classList.remove('hidden');
+                });
+            });
+
+            // Mobile menu functionality for while loops
+            const whileMobileMenu = document.getElementById('while-mobile-menu');
+            whileMobileMenu.addEventListener('change', function() {
+                const tabGroup = document.querySelector('#while-section .p-6');
+                
+                // Hide all tab contents
+                tabGroup.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show selected tab content
+                document.getElementById(this.value).classList.remove('hidden');
+                
+                // Update desktop tabs to match
+                tabGroup.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-tab') === this.value) {
+                        btn.classList.add('active');
+                    }
+                });
+            });
+
+            // Mobile menu functionality for do-while loops
+            const doWhileMobileMenu = document.getElementById('dowhile-mobile-menu');
+            doWhileMobileMenu.addEventListener('change', function() {
+                const tabGroup = document.querySelector('#dowhile-section .p-6');
+                
+                // Hide all tab contents
+                tabGroup.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show selected tab content
+                document.getElementById(this.value).classList.remove('hidden');
+                
+                // Update desktop tabs to match
+                tabGroup.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-tab') === this.value) {
+                        btn.classList.add('active');
+                    }
+                });
+            });
+
+            // Run button event listeners
+            document.querySelectorAll('.run-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const codeId = this.getAttribute('data-code');
+                    const inputs = this.getAttribute('data-inputs');
+                    
+                    if (inputs) {
+                        const inputIds = JSON.parse(inputs);
+                        runCode(codeId, inputIds);
+                    } else {
+                        runCode(codeId);
+                    }
+                });
+            });
+        });
+
+        // Copy code functionality
+        function copyCode(elementId) {
+            const codeElement = document.getElementById(elementId);
+            const textArea = document.createElement('textarea');
+            textArea.value = codeElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // Show feedback
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            button.style.background = 'rgba(16, 185, 129, 0.8)';
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '';
+            }, 2000);
+        }
+
+        // Advanced code execution with simulation
+        function runCode(codeId, inputIds = []) {
+            const codeElement = document.getElementById(codeId);
+            const outputId = codeId.replace('-code', '-output');
+            const outputElement = document.getElementById(outputId);
+            const runButton = event ? event.target : document.querySelector(`[data-code="${codeId}"]`);
+            
+            // Show loading state
+            const originalText = runButton.innerHTML;
+            runButton.innerHTML = '<div class="loading-spinner"></div> Running...';
+            runButton.disabled = true;
+            
+            // Clear previous output
+            outputElement.textContent = 'Running program...\n\n';
+            
+            // Get input values if provided
+            const inputs = {};
+            inputIds.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (inputElement) {
+                    inputs[id] = inputElement.value;
+                }
+            });
+            
+            // Simulate program execution with a delay
+            setTimeout(() => {
+                try {
+                    const code = codeElement.textContent;
+                    const result = simulateCProgram(code, inputs);
+                    outputElement.textContent = result;
+                } catch (error) {
+                    outputElement.textContent = `Error: ${error.message}`;
+                }
+                
+                // Restore button state
+                runButton.innerHTML = originalText;
+                runButton.disabled = false;
+            }, 1000);
+        }
+
+        // Advanced C program simulation for new programs
+        function simulateCProgram(code, inputs) {
+            let output = '';
+            
+            if (code.includes('Star Pattern')) {
+                // Star pattern generator
+                const rows = parseInt(inputs[Object.keys(inputs)[0]] || 5);
+                
+                output += `Enter number of rows: ${rows}\n`;
+                
+                for (let i = 1; i <= rows; i++) {
+                    for (let j = 1; j <= i; j++) {
+                        output += '* ';
+                    }
+                    output += '\n';
+                }
+            }
+            else if (code.includes('Prime Number')) {
+                // Prime number checker
+                const num = parseInt(inputs[Object.keys(inputs)[0]] || 17);
+                let isPrime = true;
+                
+                output += `Enter a positive integer: ${num}\n`;
+                
+                if (num <= 1) {
+                    isPrime = false;
+                } else {
+                    for (let i = 2; i <= Math.sqrt(num); i++) {
+                        if (num % i === 0) {
+                            isPrime = false;
+                            break;
+                        }
+                    }
+                }
+                
+                if (isPrime) {
+                    output += `${num} is a prime number.\n`;
+                } else {
+                    output += `${num} is not a prime number.\n`;
+                }
+            }
+            else if (code.includes('Armstrong')) {
+                // Armstrong number checker
+                const num = parseInt(inputs[Object.keys(inputs)[0]] || 153);
+                let sum = 0;
+                let temp = num;
+                const digits = num.toString().length;
+                
+                output += `Enter an integer: ${num}\n`;
+                
+                while (temp > 0) {
+                    const digit = temp % 10;
+                    sum += Math.pow(digit, digits);
+                    temp = Math.floor(temp / 10);
+                }
+                
+                if (sum === num) {
+                    output += `${num} is an Armstrong number.\n`;
+                } else {
+                    output += `${num} is not an Armstrong number.\n`;
+                }
+            }
+            else if (code.includes('GCD')) {
+                // GCD calculator
+                const num1 = parseInt(inputs[Object.keys(inputs)[0]] || 54);
+                const num2 = parseInt(inputs[Object.keys(inputs)[1]] || 24);
+                let a = num1, b = num2;
+                
+                output += `Enter two positive integers: ${num1} ${num2}\n`;
+                
+                while (a !== b) {
+                    if (a > b) {
+                        a -= b;
+                    } else {
+                        b -= a;
+                    }
+                }
+                
+                output += `GCD = ${a}\n`;
+            }
+            else if (code.includes('Series Sum')) {
+                // Series sum calculator
+                const n = parseInt(inputs[Object.keys(inputs)[0]] || 5);
+                let sum = 0;
+                
+                output += `Enter the value of n: ${n}\n`;
+                
+                for (let i = 1; i <= n; i++) {
+                    sum += 1 / i;
+                }
+                
+                output += `Sum of the series = ${sum.toFixed(4)}\n`;
+            }
+            else if (code.includes('Number Guessing Game')) {
+                // Number guessing game
+                output += simulateGuessingGame();
+            }
+            else if (code.includes('Factorial')) {
+                // Factorial calculator
+                const n = parseInt(inputs[Object.keys(inputs)[0]] || 5);
+                
+                output += `Enter a positive integer: ${n}\n`;
+                
+                if (n < 0) {
+                    output += `Error! Factorial of a negative number doesn't exist.\n`;
+                } else {
+                    let factorial = 1;
+                    for (let i = 1; i <= n; i++) {
+                        factorial *= i;
+                    }
+                    output += `Factorial of ${n} = ${factorial}\n`;
+                }
+            }
+            else if (code.includes('Perfect Number')) {
+                // Perfect number checker
+                const num = parseInt(inputs[Object.keys(inputs)[0]] || 28);
+                let sum = 0;
+                
+                output += `Enter a positive integer: ${num}\n`;
+                
+                for (let i = 1; i <= num / 2; i++) {
+                    if (num % i === 0) {
+                        sum += i;
+                    }
+                }
+                
+                if (sum === num && num !== 0) {
+                    output += `${num} is a perfect number.\n`;
+                } else {
+                    output += `${num} is not a perfect number.\n`;
+                }
+            }
+            else if (code.includes('Binary Converter')) {
+                // Binary converter
+                const num = parseInt(inputs[Object.keys(inputs)[0]] || 13);
+                let binary = '';
+                let n = num;
+                
+                output += `Enter a decimal number: ${num}\n`;
+                output += `Binary equivalent of ${num} is: `;
+                
+                do {
+                    binary = (n % 2) + binary;
+                    n = Math.floor(n / 2);
+                } while (n > 0);
+                
+                output += `${binary}\n`;
+            }
+            else if (code.includes('Palindrome Checker')) {
+                // Palindrome checker
+                const num = parseInt(inputs[Object.keys(inputs)[0]] || 12321);
+                let reversed = 0;
+                let temp = num;
+                
+                output += `Enter an integer: ${num}\n`;
+                
+                do {
+                    reversed = reversed * 10 + (temp % 10);
+                    temp = Math.floor(temp / 10);
+                } while (temp > 0);
+                
+                if (num === reversed) {
+                    output += `${num} is a palindrome.\n`;
+                } else {
+                    output += `${num} is not a palindrome.\n`;
+                }
+            }
+            else {
+                output += "Program output simulation not implemented for this program.\n";
+            }
+            
+            return output;
+        }
+
+        // Enhanced game simulation
+        function simulateGuessingGame() {
+            let output = '';
+            const number = 42; // Fixed number for simulation
+            const guesses = [50, 30, 40, 42];
+            
+            output += `🎮 Welcome to the Number Guessing Game! 🎮\n`;
+            output += `I'm thinking of a number between 1 and 100.\n\n`;
+            
+            for (let i = 0; i < guesses.length; i++) {
+                const guess = guesses[i];
+                output += `Enter your guess: ${guess}\n`;
+                
+                if (guess > number) {
+                    output += `📈 Too high! Try again.\n\n`;
+                } else if (guess < number) {
+                    output += `📉 Too low! Try again.\n\n`;
+                } else {
+                    output += `🎉 Congratulations! You guessed it in ${i+1} attempts!\n`;
+                    break;
+                }
+            }
+            
+            return output;
+        }
+    </script>
+</body>
+</html>
